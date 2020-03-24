@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
 
-errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
   let response;
   if (NODE_ENV === 'production') {
     response = { 
