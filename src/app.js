@@ -1,26 +1,39 @@
-require('dotenv').config();
+// Main express root
 const express = require('express');
+const app = express();
+
+// Configuration
+const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
+const morganOpt = (NODE_ENV === 'production') ? 'tiny' : 'common';
+
+// Middleware
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const { NODE_ENV } = require('./config');
 
-const app = express();
-
-const morganOpt =
-  ( NODE_ENV === 'production' )
-    ? 'tiny'
-    : 'common';
+// Routers
+const gamesRouter = require('./games/games-router');
 
 app.use(
-  morgan(morganOpt),
+  morgan(
+    morganOpt,
+    { skip: () => NODE_ENV === 'test' }
+  ),
   helmet(),
-  cors()
+  cors({
+    origin: CLIENT_ORIGIN
+  }),
 );
 
+// Basic root path to ensure server is running
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res
+    .status(200)
+    .send('Server is up');
 });
+
+// Routes
+app.use('/api/games', gamesRouter);
 
 const errorHandler = (err, req, res, next) => {
   let response;
