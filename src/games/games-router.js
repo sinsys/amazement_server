@@ -11,7 +11,7 @@ gamesRouter
   .route('/')
   .get( (req, res, next) => {
     const knexInst = req.app.get('db');
-    GamesService.getGames(knexInst)
+    GamesService.getHighScores(knexInst)
       .then(games => {
         return (
           res
@@ -22,6 +22,9 @@ gamesRouter
       .catch(next);
   })
   .post(jsonBodyParser, (req, res, next) => {
+
+    const knexInst = req.app.get('db');
+    
     const { uuid, size, maze, player_path, time_started, time_ended, user_id, user_name, difficulty } = req.body;
     const newGame = { uuid, size, maze, player_path, time_started, time_ended, user_name, difficulty };
 
@@ -34,23 +37,43 @@ gamesRouter
     if ( user_id ) {
       newGame.user_id = req.body.user_id;
     };
-    
+
     newGame.time_started = new Date(newGame.time_started);
     newGame.time_ended = new Date(newGame.time_ended);
     newGame.time_created = new Date();
 
-    GamesService.addGame(
-      req.app.get('db'),
-      newGame
+    // See if the game already exists to avoid duplicate submissions
+    GamesService.gameExists(
+      knexInst,
+      newGame.uuid
     )
-      .then(game => {
-        res
-          .status(201)
-          .location(path.posix.join(req.originalUrl, `/${game.uuid}`))
-          .json(game)
-      })
-      .catch(next)
-    });
+      .then(gameExists => {
+        if( gameExists ) {
+          return (
+            res
+              .status(400)
+              .json({
+                error: `Game already exists`
+              })
+          );
+        };
+
+        // Game is unique - Submit it to DB
+        return (
+          GamesService.addGame(
+            knexInst,
+            newGame
+          )
+            .then(game => {
+              res
+                .status(201)
+                .location(path.posix.join(req.originalUrl, `/${game.uuid}`))
+                .json(game)
+            })
+            .catch(next)
+        );
+      });
+  });
 
 gamesRouter
   .route('/:uuid')
