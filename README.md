@@ -9,14 +9,16 @@ There is one catch... you cannot see the entire maze! You will be limited to a r
 
 *  [Features](#features)
 *  [Technologies](#technologies)
+*  [Endpoints](#endpoints)
 *  [Planning](#planning)
 *  [Requirements](#requirements)
-*  [Scripts](#available-scripts)
-*  
+*  [Available Scripts](#available-scripts)
+  
 ## Features
  - 3 levels of difficulty
  - Near infinite possible maze combinations
  - Keyboard or touch navigation
+ - High score board for all modes
 
 ## Technologies
 | Language | Framework/Library | Version |
@@ -28,14 +30,22 @@ There is one catch... you cannot see the entire maze! You will be limited to a r
 | | **Express** | *4.17.1* |
 | **pgSQL** | **PostgreSQL** | *10.12* |
 
+
+## Endpoints
+- `GET /api/games`: Returns the top 5 high scores for all categories
+- `GET /api/games/:uuid`: Returns detailed information about a specific game
+- `POST /api/games`: Adds a new game to our database
+  
 ## Planning
+- Kanban Board: [Kanban Board](https://github.com/sinsys/amazement_client/projects/1)
 - Gantt Chart for progress tracking: [Gantt Chart](https://docs.google.com/spreadsheets/d/1G_G0ksrQKUb6JlzIhDMscehSxYiok8L5uuWnNtSqWow/edit?usp=sharing)
 - User Stories for use-cases: [User Stories](https://docs.google.com/spreadsheets/d/1G_G0ksrQKUb6JlzIhDMscehSxYiok8L5uuWnNtSqWow/edit#gid=253511204?usp=sharing)
-<!-- - Wireframes: [Wireframes Navigator](https://sinsys.github.io/taskmon_client/wireframes/html/index.html)
-- User Flows: [User Flows on Draw.io](https://drive.google.com/file/d/1Z--cjFDzV-dabEC5hAtgKheW9UV70B5F/view?usp=sharing) -->
+- Wireframes: [Wireframes Navigator](https://sinsys.github.io/amazement_client/wireframes/index.html)
+- User Flows: [User Flows on Draw.io](https://drive.google.com/file/d/186u-Wz0U53KK0lntC3kkYo8_H7HqwFfp/view?usp=sharing)
+- Feedback (1st Round): [Feedback response in Gist](https://gist.github.com/sinsys/e27cdeb263a5455df61886512cb4ec7b)
+- Feedback (2nd Round): [Feedback response in Gist](https://gist.github.com/sinsys/6859502b71d56e2f613b22f3707b1461)
 
 ## Requirements
-
 - Your app must do something interesting or useful
 - Your app must be a fullstack app using React, CSS, Node, Express, and PostgreSQL.
 - The client and API should be deployed separately and stored in separate GitHub repos.
@@ -52,8 +62,8 @@ There is one catch... you cannot see the entire maze! You will be limited to a r
 - Your app must live at a custom URL and include a Favicon (we'll cover this later in the module)
 - Your app must work across different browsers (Chrome, Firefox, and Safari at a minimum)
 - If you choose to include an authentication system in your app, you must set up a demo user account and indicate on the landing page how to use it.
-
-## Scripts
+- 
+## Available Scripts
 
 Start the application `npm start`
 
