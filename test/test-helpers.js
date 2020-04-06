@@ -1,6 +1,4 @@
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-
+// Helper functions for our tests
 // Truncate all tables and restart identities for database
 const cleanTables = (db) => {
   return db.transaction(trx =>
